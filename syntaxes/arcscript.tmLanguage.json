@@ -15,7 +15,9 @@
     { "include": "#triggers-block" },
     { "include": "#recipes-block" },
     { "include": "#func-declaration" },
+    { "include": "#auto-block" },
     { "include": "#minigame-block" },
+    { "include": "#fire-directive" },
     { "include": "#control-directives" },
     { "include": "#media-tags" },
     { "include": "#divert" },
@@ -226,11 +228,63 @@
       "patterns": [
         { "include": "#comments" },
         { "include": "#control-directives" },
+        { "include": "#fire-directive" },
         { "include": "#set-directive" },
         { "include": "#divert" },
         { "include": "#interpolation" },
         { "include": "#speaker-line" }
       ]
+    },
+
+    "auto-block": {
+      "name": "meta.block.auto.arc",
+      "begin": "^(\\s*)(~auto)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*(\\()(.+?)(\\))",
+      "end": "^(\\s*)(~end)\\s*$",
+      "beginCaptures": {
+        "2": { "name": "keyword.control.auto.arc" },
+        "3": { "name": "entity.name.function.rule.arc" },
+        "4": { "name": "punctuation.definition.expression.arc" },
+        "5": { "include": "#expression-inline" },
+        "6": { "name": "punctuation.definition.expression.arc" }
+      },
+      "endCaptures": {
+        "2": { "name": "keyword.control.end.arc" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#auto-body-clause" },
+        { "include": "#set-directive" },
+        { "include": "#divert" }
+      ]
+    },
+
+    "auto-body-clause": {
+      "name": "meta.auto.clause.arc",
+      "match": "^\\s*(ontrue|onfalse|onunknown)\\s*(:)\\s*(.+)$",
+      "captures": {
+        "1": { "name": "keyword.control.auto.clause.arc" },
+        "2": { "name": "punctuation.separator.arc" },
+        "3": {
+          "patterns": [
+            { "include": "#set-directive" },
+            { "include": "#divert" },
+            { "include": "#fire-directive" },
+            { "include": "#variable-dotpath" }
+          ]
+        }
+      }
+    },
+
+    "fire-directive": {
+      "name": "meta.directive.fire.arc",
+      "match": "^(\\s*)(~fire)\\s+([a-zA-Z_][a-zA-Z0-9_]*)(\\()([^)]*)(\\))",
+      "captures": {
+        "2": { "name": "keyword.control.fire.arc" },
+        "3": { "name": "entity.name.function.arc" },
+        "4": { "name": "punctuation.definition.parameters.begin.arc" },
+        "5": { "include": "#expression-inline" },
+        "6": { "name": "punctuation.definition.parameters.end.arc" }
+      }
     },
 
     "minigame-block": {

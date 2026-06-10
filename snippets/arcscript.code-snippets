@@ -1,4 +1,21 @@
 {
+  "ArcScript: ~auto reactive rule": {
+    "prefix": "auto",
+    "body": [
+      "~auto ${1:rule_name}(${2:condition})",
+      "    ontrue: ${3:-> target_knot_or_rule}",
+      "    onfalse: ${4:-> other_knot_or_rule}",
+      "~end"
+    ],
+    "description": "Declare a reactive auto-rule (fires when condition changes truth value)"
+  },
+
+  "ArcScript: ~fire function call": {
+    "prefix": "fire",
+    "body": "~fire ${1:func_name}(${2:args})",
+    "description": "Call a ~func by name (function invocation)"
+  },
+
   "ArcScript: Knot": {
     "prefix": "knot",
     "body": [
