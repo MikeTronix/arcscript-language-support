@@ -1,0 +1,387 @@
+{
+  "ArcScript: Knot": {
+    "prefix": "knot",
+    "body": [
+      "=== ${1:knot_name} ===",
+      "",
+      "$0",
+      "",
+      "-> END"
+    ],
+    "description": "Define a new knot (scene)"
+  },
+
+  "ArcScript: Stitch": {
+    "prefix": "stitch",
+    "body": [
+      "= ${1:stitch_name}",
+      "",
+      "$0"
+    ],
+    "description": "Define a new stitch (sub-section within a knot)"
+  },
+
+  "ArcScript: VAR declaration": {
+    "prefix": "var",
+    "body": "VAR ${1:name} = ${2:value}",
+    "description": "Declare a runtime variable"
+  },
+
+  "ArcScript: VAR with type annotation": {
+    "prefix": "vart",
+    "body": "VAR ${1:name}: ${2|int,float,str,bool,Ternary,list,dict|} = ${3:value}",
+    "description": "Declare a typed runtime variable"
+  },
+
+  "ArcScript: CONST declaration": {
+    "prefix": "const",
+    "body": "CONST ${1:NAME} = ${2:value}",
+    "description": "Declare a compile-time constant"
+  },
+
+  "ArcScript: ~set": {
+    "prefix": "set",
+    "body": "~set ${1:variable} = ${2:value}",
+    "description": "Update a variable"
+  },
+
+  "ArcScript: ~if block": {
+    "prefix": "if",
+    "body": [
+      "~if (${1:condition})",
+      "    $0",
+      "~end"
+    ],
+    "description": "If block"
+  },
+
+  "ArcScript: ~if / ~else block": {
+    "prefix": "ifelse",
+    "body": [
+      "~if (${1:condition})",
+      "    $2",
+      "~else",
+      "    $0",
+      "~end"
+    ],
+    "description": "If / else block"
+  },
+
+  "ArcScript: ~if / ~elif / ~else block": {
+    "prefix": "ifelif",
+    "body": [
+      "~if (${1:condition})",
+      "    $2",
+      "~elif (${3:condition})",
+      "    $4",
+      "~else",
+      "    $0",
+      "~end"
+    ],
+    "description": "If / elif / else block"
+  },
+
+  "ArcScript: ~if / ~unknown / ~else block": {
+    "prefix": "ifunknown",
+    "body": [
+      "~if (${1:condition})",
+      "    $2",
+      "~unknown",
+      "    $3",
+      "~else",
+      "    $0",
+      "~end"
+    ],
+    "description": "If / unknown / else block (ternary logic)"
+  },
+
+  "ArcScript: ~when block": {
+    "prefix": "when",
+    "body": [
+      "~when (${1:condition})",
+      "    $0",
+      "~end"
+    ],
+    "description": "When block (single-branch if)"
+  },
+
+  "ArcScript: ~unless block": {
+    "prefix": "unless",
+    "body": [
+      "~unless (${1:condition})",
+      "    $0",
+      "~end"
+    ],
+    "description": "Unless block (runs when condition is false)"
+  },
+
+  "ArcScript: Choice group (once)": {
+    "prefix": "choices",
+    "body": [
+      "* [${1:Option A}]",
+      "  $2",
+      "",
+      "* [${3:Option B}]",
+      "  $4",
+      "",
+      "-",
+      "$0"
+    ],
+    "description": "Once-choice group with gather"
+  },
+
+  "ArcScript: Conditional choice": {
+    "prefix": "choicecond",
+    "body": "* {${1:condition}} [${2:Option text}]",
+    "description": "Choice that is only shown when condition is true"
+  },
+
+  "ArcScript: Speaker line": {
+    "prefix": "speak",
+    "body": "${1:Name}: ${2:dialogue text}",
+    "description": "Single-line speaker dialogue"
+  },
+
+  "ArcScript: Speaker block": {
+    "prefix": "speakblock",
+    "body": [
+      "::${1:speaker_id}",
+      "$0",
+      "::"
+    ],
+    "description": "Multi-line speaker block"
+  },
+
+  "ArcScript: %background%": {
+    "prefix": "bg",
+    "body": "%background% ${1:images/background.png} %transition% ${2|cut,dissolve,fade_in,fade,wipe_right,wipe_left,wipe_up,wipe_down,fade_white|} %duration% ${3:1.0}",
+    "description": "Set background image with transition"
+  },
+
+  "ArcScript: %character% show": {
+    "prefix": "charshow",
+    "body": "%character% ${1:id} %sprite% ${2:neutral} %pos% ${3|left,center,right,far_left,far_right|} %enter% ${4|slide_in,fade_in,pop_in|}",
+    "description": "Show a character sprite"
+  },
+
+  "ArcScript: %character% expression": {
+    "prefix": "charexpr",
+    "body": "%character% ${1:id} %sprite% ${2:expression}",
+    "description": "Change character expression mid-scene"
+  },
+
+  "ArcScript: %character% hide": {
+    "prefix": "charhide",
+    "body": "%character% ${1:id} %hide%",
+    "description": "Instantly remove a character sprite"
+  },
+
+  "ArcScript: %character% exit (animated)": {
+    "prefix": "charexit",
+    "body": "%character% ${1:id} %exit% ${2|fade_out,slide_left,slide_right,slide_out,zoom_out,blur_fade|} %duration% ${3:0.5}",
+    "description": "Remove a character with an animation"
+  },
+
+  "ArcScript: %audio% play": {
+    "prefix": "audio",
+    "body": "%audio% ${1:music/track} %channel% ${2|bgm,sfx,sfx2,ambient,voice|} %loop% %volume% ${3:0.5}",
+    "description": "Play audio on a channel"
+  },
+
+  "ArcScript: %audio% stop": {
+    "prefix": "audiostop",
+    "body": "%audio% %stop% ${1|bgm,sfx,sfx2,ambient,voice|} %fade_out% ${2:1.0}",
+    "description": "Stop an audio channel with fade"
+  },
+
+  "ArcScript: %effect%": {
+    "prefix": "effect",
+    "body": "%effect% ${1|flash,screen_shake,fade_to_black,fade_from_black,fade_to_white,fade_from_white|} %duration% ${2:0.5}",
+    "description": "Screen effect"
+  },
+
+  "ArcScript: %video%": {
+    "prefix": "video",
+    "body": "%video% ${1:video/cutscene.mp4} %skip_after% ${2:3}",
+    "description": "Play a fullscreen video cutscene"
+  },
+
+  "ArcScript: %popup%": {
+    "prefix": "popup",
+    "body": "%popup% \"${1:Notification text}\" %duration% ${2:3.0}",
+    "description": "Non-blocking popup toast notification"
+  },
+
+  "ArcScript: ~wait": {
+    "prefix": "wait",
+    "body": "~wait ${1:1.0}",
+    "description": "Timed pause in seconds"
+  },
+
+  "ArcScript: ~log": {
+    "prefix": "log",
+    "body": "~log \"${1:Debug: var={variable}}\"",
+    "description": "Log a debug message to the browser console"
+  },
+
+  "ArcScript: ~assert": {
+    "prefix": "assert",
+    "body": "~assert (${1:condition}) \"${2:Expected: description}\"",
+    "description": "Assert an invariant during development"
+  },
+
+  "ArcScript: ~define char": {
+    "prefix": "defchar",
+    "body": [
+      "~define char \"${1:id}\"",
+      "    name: \"${2:Full Name}\"",
+      "    display_name: \"${3:Short}\"",
+      "    default_sprite: \"${1:id}/neutral\"",
+      "    color: \"${4:#ffffff}\"",
+      "    desc: [\"${5:Character description.}\"]",
+      "    verbs: [\"talk\", \"examine\"]",
+      "~end"
+    ],
+    "description": "Define a character entity"
+  },
+
+  "ArcScript: ~define place": {
+    "prefix": "defplace",
+    "body": [
+      "~define place \"${1:id}\"",
+      "    name: \"${2:Room Name}\"",
+      "    desc: [\"${3:Room description.}\"]",
+      "    background: \"${4:images/room.png}\"",
+      "    music: \"${5:music/ambient.mp3}\"",
+      "    characters: []",
+      "    objects: []",
+      "    exits: [\"${6:other_room}\"]",
+      "~end"
+    ],
+    "description": "Define a place (room) entity"
+  },
+
+  "ArcScript: ~define object": {
+    "prefix": "defobj",
+    "body": [
+      "~define object \"${1:id}\"",
+      "    name: \"${2:object name}\"",
+      "    desc: [\"${3:Object description.}\"]",
+      "    verbs: [\"examine\", \"take\"]",
+      "    inventory_possible: ${4|True,False|}",
+      "    weight: ${5:1}",
+      "~end"
+    ],
+    "description": "Define an object entity"
+  },
+
+  "ArcScript: ~triggers block": {
+    "prefix": "triggers",
+    "body": [
+      "~triggers",
+      "    (${1:entity_id}, ${2:verb}, ${3:*}) -> ${4:target_knot} {${5:condition}}",
+      "~end"
+    ],
+    "description": "Declare sandbox trigger rules"
+  },
+
+  "ArcScript: trigger rule": {
+    "prefix": "trigger",
+    "body": "(${1:entity_id}, ${2:verb}, ${3:*}) -> ${4:target_knot} {${5:condition}}",
+    "description": "Single trigger rule line"
+  },
+
+  "ArcScript: ~recipes block": {
+    "prefix": "recipes",
+    "body": [
+      "~recipes",
+      "    (${1:item_a}, ${2:item_b}) -> ${3:result_item}",
+      "~end"
+    ],
+    "description": "Declare item combination recipes"
+  },
+
+  "ArcScript: ~func verb override": {
+    "prefix": "funcverb",
+    "body": [
+      "~func verb_${1:examine}(target) -> _result",
+      "    ~if (target == \"${2:entity_id}\")",
+      "        ~set _result = \"${3:Description text.}\"",
+      "    ~end",
+      "~end"
+    ],
+    "description": "Define a verb function override"
+  },
+
+  "ArcScript: %minigame% (inline)": {
+    "prefix": "minigame",
+    "body": "%minigame% ${1|lockpick,wireconnect,cutting|} %difficulty% ${2:2} %result_var% ${3:minigame_result}",
+    "description": "Launch a minigame (tag form)"
+  },
+
+  "ArcScript: %minigame% (block form)": {
+    "prefix": "minigameblock",
+    "body": [
+      "~minigame ${1:wireconnect} %result_var% ${2:_wc_result}",
+      "{",
+      "    \"timer\": ${3:120},",
+      "    \"${4:key}\": [\"${5:value}\"]",
+      "}",
+      "~end"
+    ],
+    "description": "Launch a minigame with complex JSON config (block form)"
+  },
+
+  "ArcScript: Minigame result branch": {
+    "prefix": "mgresult",
+    "body": [
+      "~if (${1:result_var} == \"success\")",
+      "    $2",
+      "~elif (${1:result_var} == \"failure\")",
+      "    $3",
+      "~else",
+      "    $4",
+      "~end"
+    ],
+    "description": "Branch on a minigame result (success / failure / cancelled)"
+  },
+
+  "ArcScript: Enter sandbox": {
+    "prefix": "menu",
+    "body": [
+      "~set _current_place = \"${1:room_id}\"",
+      "-> MENU"
+    ],
+    "description": "Set starting room and enter sandbox mode"
+  },
+
+  "ArcScript: INCLUDE": {
+    "prefix": "include",
+    "body": "INCLUDE \"${1:path/to/file.arc}\"",
+    "description": "Include another ArcScript file"
+  },
+
+  "ArcScript: any() predicate": {
+    "prefix": "any",
+    "body": "any(${1:collection}, ${2:it.field} ${3:==} ${4:value})",
+    "description": "Collection predicate: any element matches"
+  },
+
+  "ArcScript: all() predicate": {
+    "prefix": "all",
+    "body": "all(${1:collection}, ${2:it.field} ${3:==} ${4:value})",
+    "description": "Collection predicate: all elements match"
+  },
+
+  "ArcScript: count() predicate": {
+    "prefix": "count",
+    "body": "count(${1:collection}, ${2:it.field} ${3:>} ${4:0})",
+    "description": "Collection predicate: count matching elements"
+  },
+
+  "ArcScript: visits() guard": {
+    "prefix": "visits",
+    "body": "visits(${1:knot_name}) == 0",
+    "description": "Check if a knot has never been visited (for once-only triggers)"
+  }
+}

@@ -1,0 +1,697 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "ArcScript",
+  "scopeName": "source.arc",
+  "fileTypes": ["arc"],
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#knot-header" },
+    { "include": "#stitch-header" },
+    { "include": "#include-directive" },
+    { "include": "#const-declaration" },
+    { "include": "#var-declaration" },
+    { "include": "#set-directive" },
+    { "include": "#define-block" },
+    { "include": "#triggers-block" },
+    { "include": "#recipes-block" },
+    { "include": "#func-declaration" },
+    { "include": "#minigame-block" },
+    { "include": "#control-directives" },
+    { "include": "#media-tags" },
+    { "include": "#divert" },
+    { "include": "#choice-always" },
+    { "include": "#choice-once" },
+    { "include": "#gather-marker" },
+    { "include": "#speaker-block-open" },
+    { "include": "#speaker-block-close" },
+    { "include": "#speaker-line" },
+    { "include": "#bbcode-inline" },
+    { "include": "#interpolation" },
+    { "include": "#narrative-text" }
+  ],
+  "repository": {
+
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.arc",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.line.double-hash.arc",
+          "match": "##.*$"
+        }
+      ]
+    },
+
+    "knot-header": {
+      "name": "entity.name.section.knot.arc",
+      "match": "^(===)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s+(===)\\s*$",
+      "captures": {
+        "1": { "name": "punctuation.definition.knot.arc" },
+        "2": { "name": "entity.name.section.knot.arc" },
+        "3": { "name": "punctuation.definition.knot.arc" }
+      }
+    },
+
+    "stitch-header": {
+      "name": "entity.name.section.stitch.arc",
+      "match": "^(=)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*$",
+      "captures": {
+        "1": { "name": "punctuation.definition.stitch.arc" },
+        "2": { "name": "entity.name.section.stitch.arc" }
+      }
+    },
+
+    "include-directive": {
+      "name": "meta.preprocessor.include.arc",
+      "match": "^(INCLUDE)\\s+(\"[^\"]*\")",
+      "captures": {
+        "1": { "name": "keyword.control.import.arc" },
+        "2": { "name": "string.quoted.double.arc" }
+      }
+    },
+
+    "const-declaration": {
+      "name": "meta.declaration.const.arc",
+      "match": "^(CONST)\\s+([A-Z_][A-Z0-9_]*)\\s*(=)\\s*(.+)$",
+      "captures": {
+        "1": { "name": "storage.type.const.arc" },
+        "2": { "name": "variable.other.constant.arc" },
+        "3": { "name": "keyword.operator.assignment.arc" },
+        "4": { "include": "#expression-inline" }
+      }
+    },
+
+    "var-declaration": {
+      "name": "meta.declaration.var.arc",
+      "match": "^(VAR)\\s+([a-zA-Z_][a-zA-Z0-9_]*)(?:\\s*:\\s*(int|float|str|bool|Ternary|list|dict))?\\s*(=)\\s*(.+)$",
+      "captures": {
+        "1": { "name": "storage.type.var.arc" },
+        "2": { "name": "variable.other.arc" },
+        "3": { "name": "storage.type.annotation.arc" },
+        "4": { "name": "keyword.operator.assignment.arc" },
+        "5": { "include": "#expression-inline" }
+      }
+    },
+
+    "set-directive": {
+      "name": "meta.directive.set.arc",
+      "match": "^(\\s*)(~set)\\s+([a-zA-Z_][a-zA-Z0-9_.]*)\\s*(=)\\s*(.+)$",
+      "captures": {
+        "2": { "name": "keyword.operator.set.arc" },
+        "3": { "name": "variable.other.arc" },
+        "4": { "name": "keyword.operator.assignment.arc" },
+        "5": { "include": "#expression-inline" }
+      }
+    },
+
+    "define-block": {
+      "name": "meta.block.define.arc",
+      "begin": "^(\\s*)(~define)\\s+(char|place|object)\\s+(\"[^\"]*\")",
+      "end": "^(\\s*)(~end)\\s*$",
+      "beginCaptures": {
+        "2": { "name": "keyword.control.define.arc" },
+        "3": { "name": "storage.type.entity.arc" },
+        "4": { "name": "string.quoted.double.arc" }
+      },
+      "endCaptures": {
+        "2": { "name": "keyword.control.end.arc" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#entity-field-name" },
+        { "include": "#entity-field-value" }
+      ]
+    },
+
+    "entity-field-name": {
+      "match": "^\\s+(name|display_name|default_sprite|color|desc|verbs|background|music|characters|objects|exits|inventory_possible|weight|icon)\\s*(:)",
+      "captures": {
+        "1": { "name": "support.type.property-name.arc" },
+        "2": { "name": "punctuation.separator.key-value.arc" }
+      }
+    },
+
+    "entity-field-value": {
+      "patterns": [
+        { "include": "#json-literal" },
+        { "include": "#string-quoted" },
+        { "include": "#boolean-literal" },
+        { "include": "#number-literal" }
+      ]
+    },
+
+    "triggers-block": {
+      "name": "meta.block.triggers.arc",
+      "begin": "^(\\s*)(~triggers)\\s*$",
+      "end": "^(\\s*)(~end)\\s*$",
+      "beginCaptures": {
+        "2": { "name": "keyword.control.triggers.arc" }
+      },
+      "endCaptures": {
+        "2": { "name": "keyword.control.end.arc" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#trigger-rule" }
+      ]
+    },
+
+    "trigger-rule": {
+      "name": "meta.trigger-rule.arc",
+      "match": "^\\s*(\\()([^,)]+)(,)([^,)]+)(,)([^)]+)(\\))\\s*(->)\\s*([a-zA-Z_][a-zA-Z0-9_.]*)(?:\\s*(\\{)(.+?)(\\}))?",
+      "captures": {
+        "1": { "name": "punctuation.definition.trigger.arc" },
+        "2": { "name": "variable.other.trigger.entity.arc" },
+        "3": { "name": "punctuation.separator.arc" },
+        "4": { "name": "variable.other.trigger.verb.arc" },
+        "5": { "name": "punctuation.separator.arc" },
+        "6": { "name": "variable.other.trigger.room.arc" },
+        "7": { "name": "punctuation.definition.trigger.arc" },
+        "8": { "name": "keyword.operator.divert.arc" },
+        "9": { "name": "entity.name.section.knot.arc" },
+        "10": { "name": "punctuation.definition.expression.arc" },
+        "11": { "include": "#expression-inline" },
+        "12": { "name": "punctuation.definition.expression.arc" }
+      }
+    },
+
+    "recipes-block": {
+      "name": "meta.block.recipes.arc",
+      "begin": "^(\\s*)(~recipes)\\s*$",
+      "end": "^(\\s*)(~end)\\s*$",
+      "beginCaptures": {
+        "2": { "name": "keyword.control.recipes.arc" }
+      },
+      "endCaptures": {
+        "2": { "name": "keyword.control.end.arc" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#recipe-rule" }
+      ]
+    },
+
+    "recipe-rule": {
+      "name": "meta.recipe-rule.arc",
+      "match": "^\\s*(\\()([^,)]+)(,)([^)]+)(\\))\\s*(->)\\s*([a-zA-Z_][a-zA-Z0-9_-]*)",
+      "captures": {
+        "1": { "name": "punctuation.definition.recipe.arc" },
+        "2": { "name": "variable.other.recipe.item.arc" },
+        "3": { "name": "punctuation.separator.arc" },
+        "4": { "name": "variable.other.recipe.item.arc" },
+        "5": { "name": "punctuation.definition.recipe.arc" },
+        "6": { "name": "keyword.operator.divert.arc" },
+        "7": { "name": "variable.other.recipe.result.arc" }
+      }
+    },
+
+    "func-declaration": {
+      "name": "meta.block.func.arc",
+      "begin": "^(\\s*)(~func)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*(\\()([^)]*)(\\))(?:\\s*(->)\\s*([a-zA-Z_][a-zA-Z0-9_]*))?",
+      "end": "^(\\s*)(~end)\\s*$",
+      "beginCaptures": {
+        "2": { "name": "keyword.control.func.arc" },
+        "3": { "name": "entity.name.function.arc" },
+        "4": { "name": "punctuation.definition.parameters.begin.arc" },
+        "5": { "name": "variable.parameter.arc" },
+        "6": { "name": "punctuation.definition.parameters.end.arc" },
+        "7": { "name": "keyword.operator.arrow.arc" },
+        "8": { "name": "variable.other.return.arc" }
+      },
+      "endCaptures": {
+        "2": { "name": "keyword.control.end.arc" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#control-directives" },
+        { "include": "#set-directive" },
+        { "include": "#divert" },
+        { "include": "#interpolation" },
+        { "include": "#speaker-line" }
+      ]
+    },
+
+    "minigame-block": {
+      "patterns": [
+        {
+          "name": "meta.tag.minigame.arc",
+          "match": "^(\\s*)(%minigame%)\\s+([a-zA-Z_][a-zA-Z0-9_]*)(.*)$",
+          "captures": {
+            "2": { "name": "keyword.control.minigame.arc" },
+            "3": { "name": "variable.other.minigame.id.arc" },
+            "4": { "include": "#media-subfields" }
+          }
+        }
+      ]
+    },
+
+    "control-directives": {
+      "patterns": [
+        {
+          "name": "meta.directive.wait.arc",
+          "match": "^(\\s*)(~wait)\\s+([0-9]+(?:\\.[0-9]+)?)\\s*$",
+          "captures": {
+            "2": { "name": "keyword.control.wait.arc" },
+            "3": { "name": "constant.numeric.arc" }
+          }
+        },
+        {
+          "name": "meta.directive.log.arc",
+          "match": "^(\\s*)(~log)\\s+(\"[^\"]*\")\\s*$",
+          "captures": {
+            "2": { "name": "keyword.control.log.arc" },
+            "3": { "name": "string.quoted.double.arc" }
+          }
+        },
+        {
+          "name": "meta.directive.assert.arc",
+          "match": "^(\\s*)(~assert)\\s+(\\()(.+?)(\\))(?:\\s*(\"[^\"]*\"))?\\s*$",
+          "captures": {
+            "2": { "name": "keyword.control.assert.arc" },
+            "3": { "name": "punctuation.definition.expression.arc" },
+            "4": { "include": "#expression-inline" },
+            "5": { "name": "punctuation.definition.expression.arc" },
+            "6": { "name": "string.quoted.double.arc" }
+          }
+        },
+        {
+          "name": "meta.block.if.arc",
+          "match": "^(\\s*)(~if)\\s+(\\(.+\\))\\s*$",
+          "captures": {
+            "2": { "name": "keyword.control.conditional.arc" },
+            "3": { "include": "#expression-parens" }
+          }
+        },
+        {
+          "match": "^(\\s*)(~elif)\\s+(\\(.+\\))\\s*$",
+          "captures": {
+            "2": { "name": "keyword.control.conditional.arc" },
+            "3": { "include": "#expression-parens" }
+          }
+        },
+        {
+          "match": "^(\\s*)(~else)\\s*$",
+          "captures": {
+            "2": { "name": "keyword.control.conditional.arc" }
+          }
+        },
+        {
+          "match": "^(\\s*)(~unknown)\\s*$",
+          "captures": {
+            "2": { "name": "keyword.control.conditional.arc" }
+          }
+        },
+        {
+          "match": "^(\\s*)(~end)\\s*$",
+          "captures": {
+            "2": { "name": "keyword.control.end.arc" }
+          }
+        },
+        {
+          "name": "meta.directive.when.arc",
+          "match": "^(\\s*)(~when)\\s+(\\(.+\\))\\s*$",
+          "captures": {
+            "2": { "name": "keyword.control.conditional.arc" },
+            "3": { "include": "#expression-parens" }
+          }
+        },
+        {
+          "name": "meta.directive.unless.arc",
+          "match": "^(\\s*)(~unless)\\s+(\\(.+\\))\\s*$",
+          "captures": {
+            "2": { "name": "keyword.control.conditional.arc" },
+            "3": { "include": "#expression-parens" }
+          }
+        }
+      ]
+    },
+
+    "media-tags": {
+      "patterns": [
+        {
+          "name": "meta.tag.background.arc",
+          "match": "^(\\s*)(%background%)(.*)$",
+          "captures": {
+            "2": { "name": "keyword.control.media.arc" },
+            "3": { "include": "#media-subfields" }
+          }
+        },
+        {
+          "name": "meta.tag.character.arc",
+          "match": "^(\\s*)(%character%)(.*)$",
+          "captures": {
+            "2": { "name": "keyword.control.media.arc" },
+            "3": { "include": "#media-subfields" }
+          }
+        },
+        {
+          "name": "meta.tag.audio.arc",
+          "match": "^(\\s*)(%audio%)(.*)$",
+          "captures": {
+            "2": { "name": "keyword.control.media.arc" },
+            "3": { "include": "#media-subfields" }
+          }
+        },
+        {
+          "name": "meta.tag.effect.arc",
+          "match": "^(\\s*)(%effect%)(.*)$",
+          "captures": {
+            "2": { "name": "keyword.control.media.arc" },
+            "3": { "include": "#media-subfields" }
+          }
+        },
+        {
+          "name": "meta.tag.video.arc",
+          "match": "^(\\s*)(%video%)(.*)$",
+          "captures": {
+            "2": { "name": "keyword.control.media.arc" },
+            "3": { "include": "#media-subfields" }
+          }
+        },
+        {
+          "name": "meta.tag.popup.arc",
+          "match": "^(\\s*)(%popup%)(.*)$",
+          "captures": {
+            "2": { "name": "keyword.control.media.arc" },
+            "3": { "include": "#media-subfields" }
+          }
+        },
+        {
+          "name": "meta.tag.minigame.inline.arc",
+          "match": "^(\\s*)(%minigame%)(.*)$",
+          "captures": {
+            "2": { "name": "keyword.control.media.arc" },
+            "3": { "include": "#media-subfields" }
+          }
+        }
+      ]
+    },
+
+    "media-subfields": {
+      "patterns": [
+        {
+          "name": "constant.language.subfield.arc",
+          "match": "%(transition|duration|channel|loop|volume|stop|fade_out|fade_in|sprite|pos|enter|exit|hide|scale|z|color|intensity|skip_after|autoplay|icon|result_var|difficulty)%"
+        },
+        { "include": "#number-literal" },
+        { "include": "#string-quoted" },
+        { "include": "#interpolation" }
+      ]
+    },
+
+    "divert": {
+      "patterns": [
+        {
+          "name": "meta.divert.special.arc",
+          "match": "(->)\\s*(END|MENU)\\b",
+          "captures": {
+            "1": { "name": "keyword.operator.divert.arc" },
+            "2": { "name": "constant.language.divert.arc" }
+          }
+        },
+        {
+          "name": "meta.divert.arc",
+          "match": "(->)\\s*([a-zA-Z_][a-zA-Z0-9_.]*)",
+          "captures": {
+            "1": { "name": "keyword.operator.divert.arc" },
+            "2": { "name": "entity.name.section.knot.arc" }
+          }
+        }
+      ]
+    },
+
+    "choice-always": {
+      "name": "meta.choice.always.arc",
+      "begin": "^(\\s*)(\\+)",
+      "end": "$",
+      "beginCaptures": {
+        "2": { "name": "keyword.operator.choice.always.arc" }
+      },
+      "patterns": [
+        { "include": "#choice-condition" },
+        { "include": "#choice-label" },
+        { "include": "#divert" },
+        { "include": "#interpolation" },
+        { "include": "#bbcode-inline" }
+      ]
+    },
+
+    "choice-once": {
+      "name": "meta.choice.once.arc",
+      "begin": "^(\\s*)(\\*)",
+      "end": "$",
+      "beginCaptures": {
+        "2": { "name": "keyword.operator.choice.once.arc" }
+      },
+      "patterns": [
+        { "include": "#choice-condition" },
+        { "include": "#choice-label" },
+        { "include": "#divert" },
+        { "include": "#interpolation" },
+        { "include": "#bbcode-inline" }
+      ]
+    },
+
+    "choice-condition": {
+      "name": "meta.choice.condition.arc",
+      "match": "(\\{)([^}]+)(\\})",
+      "captures": {
+        "1": { "name": "punctuation.definition.expression.arc" },
+        "2": { "include": "#expression-inline" },
+        "3": { "name": "punctuation.definition.expression.arc" }
+      }
+    },
+
+    "choice-label": {
+      "name": "meta.choice.label.arc",
+      "match": "(\\[)([^\\]]*)(\\])",
+      "captures": {
+        "1": { "name": "punctuation.definition.choice-label.arc" },
+        "2": { "name": "markup.bold.choice-label.arc" },
+        "3": { "name": "punctuation.definition.choice-label.arc" }
+      }
+    },
+
+    "gather-marker": {
+      "name": "meta.gather.arc",
+      "match": "^(\\s*)(-)(\\s|$)",
+      "captures": {
+        "2": { "name": "keyword.operator.gather.arc" }
+      }
+    },
+
+    "speaker-block-open": {
+      "name": "meta.speaker-block.open.arc",
+      "match": "^(::{1})([a-zA-Z_][a-zA-Z0-9_]*)\\s*$",
+      "captures": {
+        "1": { "name": "punctuation.definition.speaker-block.arc" },
+        "2": { "name": "entity.name.function.speaker.arc" }
+      }
+    },
+
+    "speaker-block-close": {
+      "name": "meta.speaker-block.close.arc",
+      "match": "^(::{1})\\s*$",
+      "captures": {
+        "1": { "name": "punctuation.definition.speaker-block.arc" }
+      }
+    },
+
+    "speaker-line": {
+      "name": "meta.speaker-line.arc",
+      "match": "^(\\s*)([A-Z][a-zA-Z0-9_]*)(:)\\s(.+)$",
+      "captures": {
+        "2": { "name": "entity.name.function.speaker.arc" },
+        "3": { "name": "punctuation.separator.speaker.arc" },
+        "4": {
+          "patterns": [
+            { "include": "#interpolation" },
+            { "include": "#bbcode-inline" }
+          ]
+        }
+      }
+    },
+
+    "bbcode-inline": {
+      "patterns": [
+        {
+          "name": "markup.bold.bbcode.arc",
+          "match": "(\\[b\\])(.+?)(\\[/b\\])",
+          "captures": {
+            "1": { "name": "punctuation.definition.bbcode.arc" },
+            "2": { "name": "markup.bold.arc" },
+            "3": { "name": "punctuation.definition.bbcode.arc" }
+          }
+        },
+        {
+          "name": "markup.italic.bbcode.arc",
+          "match": "(\\[i\\])(.+?)(\\[/i\\])",
+          "captures": {
+            "1": { "name": "punctuation.definition.bbcode.arc" },
+            "2": { "name": "markup.italic.arc" },
+            "3": { "name": "punctuation.definition.bbcode.arc" }
+          }
+        },
+        {
+          "name": "markup.other.color.bbcode.arc",
+          "match": "(\\[color=#[0-9a-fA-F]{3,6}\\])(.+?)(\\[/color\\])",
+          "captures": {
+            "1": { "name": "punctuation.definition.bbcode.arc" },
+            "2": { "name": "markup.other.arc" },
+            "3": { "name": "punctuation.definition.bbcode.arc" }
+          }
+        },
+        {
+          "name": "markup.other.effect.bbcode.arc",
+          "match": "(\\[(?:shake|wave)\\])(.+?)(\\[/(?:shake|wave)\\])",
+          "captures": {
+            "1": { "name": "punctuation.definition.bbcode.arc" },
+            "2": { "name": "markup.other.arc" },
+            "3": { "name": "punctuation.definition.bbcode.arc" }
+          }
+        }
+      ]
+    },
+
+    "interpolation": {
+      "name": "meta.interpolation.arc",
+      "begin": "\\{",
+      "end": "\\}",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.interpolation.begin.arc" }
+      },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.interpolation.end.arc" }
+      },
+      "patterns": [
+        { "include": "#expression-inline" }
+      ]
+    },
+
+    "expression-parens": {
+      "name": "meta.expression.parens.arc",
+      "begin": "\\(",
+      "end": "\\)",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.expression.arc" }
+      },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.expression.arc" }
+      },
+      "patterns": [
+        { "include": "#expression-inline" }
+      ]
+    },
+
+    "expression-inline": {
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#string-quoted" },
+        { "include": "#boolean-literal" },
+        { "include": "#ternary-literal" },
+        { "include": "#number-literal" },
+        { "include": "#builtin-functions" },
+        { "include": "#logical-operators" },
+        { "include": "#comparison-operators" },
+        { "include": "#arithmetic-operators" },
+        { "include": "#variable-dotpath" }
+      ]
+    },
+
+    "json-literal": {
+      "patterns": [
+        {
+          "name": "meta.structure.array.arc",
+          "begin": "\\[",
+          "end": "\\]",
+          "beginCaptures": { "0": { "name": "punctuation.definition.array.begin.arc" } },
+          "endCaptures": { "0": { "name": "punctuation.definition.array.end.arc" } },
+          "patterns": [
+            { "include": "#string-quoted" },
+            { "include": "#boolean-literal" },
+            { "include": "#number-literal" },
+            { "include": "#json-inline-object" }
+          ]
+        },
+        { "include": "#json-inline-object" }
+      ]
+    },
+
+    "json-inline-object": {
+      "name": "meta.structure.object.arc",
+      "begin": "\\{",
+      "end": "\\}",
+      "beginCaptures": { "0": { "name": "punctuation.definition.object.begin.arc" } },
+      "endCaptures": { "0": { "name": "punctuation.definition.object.end.arc" } },
+      "patterns": [
+        { "include": "#string-quoted" },
+        { "include": "#boolean-literal" },
+        { "include": "#number-literal" }
+      ]
+    },
+
+    "builtin-functions": {
+      "name": "support.function.builtin.arc",
+      "match": "\\b(any|all|count|visits)\\b(?=\\s*\\()"
+    },
+
+    "logical-operators": {
+      "name": "keyword.operator.logical.arc",
+      "match": "\\b(and|or|not)\\b"
+    },
+
+    "comparison-operators": {
+      "name": "keyword.operator.comparison.arc",
+      "match": "(==|!=|<=|>=|<|>)"
+    },
+
+    "arithmetic-operators": {
+      "name": "keyword.operator.arithmetic.arc",
+      "match": "([+\\-*/%])"
+    },
+
+    "boolean-literal": {
+      "name": "constant.language.boolean.arc",
+      "match": "\\b(True|False)\\b"
+    },
+
+    "ternary-literal": {
+      "name": "constant.language.ternary.arc",
+      "match": "\\b(Unknown|T|F|U)\\b"
+    },
+
+    "number-literal": {
+      "name": "constant.numeric.arc",
+      "match": "\\b[0-9]+(?:\\.[0-9]+)?\\b"
+    },
+
+    "string-quoted": {
+      "name": "string.quoted.double.arc",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        { "include": "#interpolation" }
+      ]
+    },
+
+    "variable-dotpath": {
+      "name": "variable.other.arc",
+      "match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)(?:\\.[a-zA-Z0-9_]+)*\\b"
+    },
+
+    "narrative-text": {
+      "name": "meta.narrative.arc",
+      "match": "^(?!\\s*(?://|##|===|=\\s|~|%|\\*|\\+|-[^>]|->|::|VAR|CONST|INCLUDE))(.+)$",
+      "captures": {
+        "1": {
+          "patterns": [
+            { "include": "#bbcode-inline" },
+            { "include": "#interpolation" }
+          ]
+        }
+      }
+    }
+  }
+}

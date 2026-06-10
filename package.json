@@ -1,0 +1,73 @@
+{
+  "name": "arcscript",
+  "displayName": "ArcScript Language Support",
+  "description": "Syntax highlighting, snippets, and language support for the ArcScript visual novel scripting language (.arc files).",
+  "version": "1.0.0",
+  "publisher": "MikeTronix",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MikeTronix/arcscript-language-support.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MikeTronix/arcscript-language-support/issues"
+  },
+  "homepage": "https://github.com/MikeTronix/arcscript-language-support#readme",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "arcscript",
+    "arc",
+    "visual novel",
+    "interactive fiction",
+    "narrative scripting",
+    "inkle",
+    "ink",
+    "game writing"
+  ],
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#1a1a2e",
+    "theme": "dark"
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "arcscript",
+        "aliases": [
+          "ArcScript",
+          "arc"
+        ],
+        "extensions": [
+          ".arc"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "arcscript",
+        "scopeName": "source.arc",
+        "path": "./syntaxes/arcscript.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "arcscript",
+        "path": "./snippets/arcscript.code-snippets"
+      }
+    ],
+    "themes": []
+  },
+  "main": "",
+  "scripts": {
+    "package": "npx @vscode/vsce package"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^2.22.0"
+  }
+}
