@@ -21,6 +21,7 @@ Full token-level highlighting for every ArcScript construct:
 | **Minigames** | `%minigame%` tag form, `~minigame … ~end` block form |
 | **Entities** | `~define char/place/object … ~end`, field names |
 | **Sandbox** | `~triggers … ~end`, `~recipes … ~end`, `~func verb_X … ~end` |
+| **Game time** | `~calendar … ~end`, `~time advance`/`wait_until`, time builtins (`hour()`, `weekday()`, `before()`, `on_or_after()`, …) |
 | **Expressions** | Dot-paths, `any()`/`all()`/`count()`, `visits()`, operators |
 | **BBCode** | `[b]`, `[i]`, `[color=…]`, `[shake]`, `[wave]` |
 | **Interpolation** | `{expr}` in text and strings |
@@ -78,6 +79,9 @@ Type a prefix and press `Tab` to expand:
 | `all` | `all(collection, predicate)` |
 | `count` | `count(collection, predicate)` |
 | `visits` | `visits(knot) == 0` guard |
+| `calendar` | Full `~calendar … ~end` block |
+| `timeadv` | `~time advance N` |
+| `timewait` | `~time wait_until H M` |
 
 ### Language Features
 
@@ -145,7 +149,7 @@ arcscript-vsx/
 ├── syntaxes/
 │   └── arcscript.tmLanguage.json ← TextMate grammar (core syntax rules)
 └── snippets/
-    └── arcscript.code-snippets   ← ~45 code snippets
+    └── arcscript.code-snippets   ← ~50 code snippets
 ```
 
 ---

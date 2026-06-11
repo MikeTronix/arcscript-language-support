@@ -6,6 +6,21 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.0.3] — 2026-06-11
+
+### Added
+
+**Game Time support**
+- `~calendar … ~end` block highlighting, with `key: value` configuration lines
+- `~time advance` and `~time wait_until` directives
+- Time builtin functions in expressions: `hour`, `minute`, `day`, `day_of_week`,
+  `weekday`, `part_of_day`, `time_str`, `month`, `year`, `clock`, `before`, `after`,
+  `between`, `is_weekday`, `on_or_after`, `minutes_until`
+- Snippets: `calendar` (full calendar block), `timeadv` (`~time advance`),
+  `timewait` (`~time wait_until`)
+
+---
+
 ## [1.0.0] — 2026-06-09
 
 ### Added

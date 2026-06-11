@@ -400,5 +400,41 @@
     "prefix": "visits",
     "body": "visits(${1:knot_name}) == 0",
     "description": "Check if a knot has never been visited (for once-only triggers)"
+  },
+
+  "ArcScript: ~calendar block": {
+    "prefix": "calendar",
+    "body": [
+      "~calendar",
+      "minutes_per_hour: 60",
+      "hours_per_day:    24",
+      "weekdays:         Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday",
+      "start.day:        ${1:1}",
+      "start.weekday:    ${2:0}",
+      "start.hour:       ${3:8}",
+      "start.minute:     ${4:0}",
+      "label.month:      \"${5:November}\"",
+      "label.year:       \"${6:454 A.D.}\"",
+      "time_step:        15",
+      "display.clock:    ${7|24h,12h|}",
+      "display.format:   {weekday} {time} — {part_of_day}",
+      "day_phases:       morning@5, afternoon@12, evening@17, night@21",
+      "exit_cost:        ${8:0}",
+      "menu_cost:        ${9:0}",
+      "~end"
+    ],
+    "description": "Declare the game calendar (enables the in-world clock and HUD)"
+  },
+
+  "ArcScript: ~time advance": {
+    "prefix": "timeadv",
+    "body": "~time advance ${1:30}",
+    "description": "Advance the game clock by N in-world minutes"
+  },
+
+  "ArcScript: ~time wait_until": {
+    "prefix": "timewait",
+    "body": "~time wait_until ${1:7} ${2:30}",
+    "description": "Advance the game clock forward to the next H:M (24-hour)"
   }
 }

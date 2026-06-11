@@ -2,7 +2,7 @@
   "name": "arcscript",
   "displayName": "ArcScript — Visual Novel Scripting Language",
   "description": "Syntax highlighting, snippets, and language support for the ArcScript visual novel scripting language (.arc files).",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "publisher": "MikeTronix",
   "license": "MIT",
   "repository": {

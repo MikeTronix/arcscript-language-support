@@ -12,6 +12,7 @@
     { "include": "#var-declaration" },
     { "include": "#set-directive" },
     { "include": "#define-block" },
+    { "include": "#calendar-block" },
     { "include": "#triggers-block" },
     { "include": "#recipes-block" },
     { "include": "#func-declaration" },
@@ -141,6 +142,29 @@
         { "include": "#string-quoted" },
         { "include": "#boolean-literal" },
         { "include": "#number-literal" }
+      ]
+    },
+
+    "calendar-block": {
+      "name": "meta.block.calendar.arc",
+      "begin": "^(\\s*)(~calendar)\\s*$",
+      "end": "^(\\s*)(~end)\\s*$",
+      "beginCaptures": {
+        "2": { "name": "keyword.control.calendar.arc" }
+      },
+      "endCaptures": {
+        "2": { "name": "keyword.control.end.arc" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        {
+          "match": "^\\s*([a-zA-Z_][a-zA-Z0-9_.]*)\\s*(:)\\s*(.+)$",
+          "captures": {
+            "1": { "name": "variable.other.calendar.key.arc" },
+            "2": { "name": "punctuation.separator.key-value.arc" },
+            "3": { "name": "string.unquoted.calendar.value.arc" }
+          }
+        }
       ]
     },
 
@@ -309,6 +333,15 @@
           "captures": {
             "2": { "name": "keyword.control.wait.arc" },
             "3": { "name": "constant.numeric.arc" }
+          }
+        },
+        {
+          "name": "meta.directive.time.arc",
+          "match": "^(\\s*)(~time)\\s+(advance|wait_until)\\b(.*)$",
+          "captures": {
+            "2": { "name": "keyword.control.time.arc" },
+            "3": { "name": "keyword.operator.time.arc" },
+            "4": { "name": "constant.numeric.arc" }
           }
         },
         {
@@ -688,7 +721,7 @@
 
     "builtin-functions": {
       "name": "support.function.builtin.arc",
-      "match": "\\b(any|all|count|visits)\\b(?=\\s*\\()"
+      "match": "\\b(any|all|count|visits|hour|minute|day|day_of_week|weekday|part_of_day|time_str|month|year|clock|before|after|between|is_weekday|on_or_after|minutes_until)\\b(?=\\s*\\()"
     },
 
     "logical-operators": {
