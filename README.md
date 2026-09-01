@@ -55,6 +55,7 @@ Type a prefix and press `Tab` to expand:
 | `charexpr` | Change character expression |
 | `charhide` | `%character% id %hide%` |
 | `charexit` | `%character%` animated exit |
+| `charflip` | `%character%` show mirrored to face the other way |
 | `audio` | `%audio%` play with channel picker |
 | `audiostop` | `%audio% %stop%` with fade |
 | `effect` | `%effect%` with type picker |

@@ -6,6 +6,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.0.4] — 2026-09-01
+
+### Added
+
+- `%flip%` media sub-field (mirrors a character sprite about its vertical axis),
+  highlighting and the `charflip` snippet
+
+---
+
 ## [1.0.3] — 2026-06-11
 
 ### Added

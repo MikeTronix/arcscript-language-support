@@ -480,7 +480,7 @@
       "patterns": [
         {
           "name": "constant.language.subfield.arc",
-          "match": "%(transition|duration|channel|loop|volume|stop|fade_out|fade_in|sprite|pos|enter|exit|hide|scale|z|color|intensity|skip_after|autoplay|icon|result_var|difficulty)%"
+          "match": "%(transition|duration|channel|loop|volume|stop|fade_out|fade_in|sprite|pos|enter|exit|hide|scale|flip|z|color|intensity|skip_after|autoplay|icon|result_var|difficulty)%"
         },
         { "include": "#number-literal" },
         { "include": "#string-quoted" },

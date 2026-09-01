@@ -199,6 +199,12 @@
     "description": "Remove a character with an animation"
   },
 
+  "ArcScript: %character% flip": {
+    "prefix": "charflip",
+    "body": "%character% ${1:id} %sprite% ${2:neutral} %pos% ${3|left,center,right,far_left,far_right|} %flip%",
+    "description": "Show a character sprite mirrored to face the other way"
+  },
+
   "ArcScript: %audio% play": {
     "prefix": "audio",
     "body": "%audio% ${1:music/track} %channel% ${2|bgm,sfx,sfx2,ambient,voice|} %loop% %volume% ${3:0.5}",
