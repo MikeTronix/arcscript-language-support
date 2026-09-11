@@ -875,7 +875,7 @@
 
     "builtin-functions": {
       "name": "support.function.builtin.arc",
-      "match": "\\b(any|all|count|visits|hour|minute|day|day_of_week|weekday|part_of_day|time_str|month|year|clock|before|after|between|is_weekday|on_or_after|minutes_until)\\b(?=\\s*\\()"
+      "match": "\\b(any|all|count|visits|has_item|add_item|hour|minute|day|day_of_week|weekday|part_of_day|time_str|month|year|clock|before|after|between|is_weekday|on_or_after|minutes_until)\\b(?=\\s*\\()"
     },
 
     "logical-operators": {
