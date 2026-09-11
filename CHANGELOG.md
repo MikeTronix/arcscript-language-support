@@ -6,6 +6,30 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.0.5] — 2026-09-11
+
+### Added
+
+Catch-up release. The grammar had fallen behind the compiler by eight directives,
+one entity type and two media tags — all of them shipped language features that
+simply rendered as plain text.
+
+- Block directives: `~achievement`, `~input`, `~grants`, `~display`, `~sparkle`,
+  and the `~minigame … ~end` form
+- Line directives: `~pov`, `~location`, and `~sparkle off`
+- `~define objective` (the alternation accepted only `char|place|object`)
+- `%base%` and `%object%` media tags
+
+### Changed
+
+- The drift that caused all of the above is now caught automatically:
+  `compiler/tests/test_syntax_coverage.py` in the ArcTree repo reads the
+  directives, `~define` types and media tags straight out of the compiler and
+  fails if this grammar is missing any. It skips cleanly when this repo is not
+  checked out alongside it.
+
+---
+
 ## [1.0.4] — 2026-09-01
 
 ### Added

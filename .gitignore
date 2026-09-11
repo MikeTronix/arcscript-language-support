@@ -1,0 +1,7 @@
+# Packaged extension builds. These are release artifacts, not source: each one is
+# a binary that would live in history forever and grow the clone for every reader.
+# Publish them to the VS Code Marketplace (`vsce publish`) and, if a sideloadable
+# copy is wanted, attach it to the matching GitHub Release.
+*.vsix
+
+node_modules/

@@ -12,6 +12,12 @@
     { "include": "#var-declaration" },
     { "include": "#set-directive" },
     { "include": "#define-block" },
+    { "include": "#achievement-block" },
+    { "include": "#input-block" },
+    { "include": "#grants-block" },
+    { "include": "#display-block" },
+    { "include": "#sparkle-block" },
+    { "include": "#minigame-directive-block" },
     { "include": "#calendar-block" },
     { "include": "#triggers-block" },
     { "include": "#recipes-block" },
@@ -111,7 +117,7 @@
 
     "define-block": {
       "name": "meta.block.define.arc",
-      "begin": "^(\\s*)(~define)\\s+(char|place|object)\\s+(\"[^\"]*\")",
+      "begin": "^(\\s*)(~define)\\s+(char|place|object|objective)\\s+(\"[^\"]*\")",
       "end": "^(\\s*)(~end)\\s*$",
       "beginCaptures": {
         "2": { "name": "keyword.control.define.arc" },
@@ -145,6 +151,113 @@
       ]
     },
 
+    "achievement-block": {
+      "name": "meta.block.achievement.arc",
+      "begin": "^(\\s*)(~achievement)\\s+(\"[^\"]*\")\\s*$",
+      "end": "^(\\s*)(~end)\\s*$",
+      "beginCaptures": {
+        "2": { "name": "keyword.control.achievement.arc" },
+        "3": { "name": "string.quoted.double.arc" }
+      },
+      "endCaptures": {
+        "2": { "name": "keyword.control.end.arc" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#entity-field-name" },
+        { "include": "#entity-field-value" }
+      ]
+    },
+    "input-block": {
+      "name": "meta.block.input.arc",
+      "begin": "^(\\s*)(~input)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s+(\"[^\"]*\")\\s*$",
+      "end": "^(\\s*)(~end)\\s*$",
+      "beginCaptures": {
+        "2": { "name": "keyword.control.input.arc" },
+        "3": { "name": "variable.other.arc" },
+        "4": { "name": "string.quoted.double.arc" }
+      },
+      "endCaptures": {
+        "2": { "name": "keyword.control.end.arc" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#entity-field-name" },
+        { "include": "#entity-field-value" }
+      ]
+    },
+    "grants-block": {
+      "name": "meta.block.grants.arc",
+      "begin": "^(\\s*)(~grants)\\s*$",
+      "end": "^(\\s*)(~end)\\s*$",
+      "beginCaptures": {
+        "2": { "name": "keyword.control.grants.arc" }
+      },
+      "endCaptures": {
+        "2": { "name": "keyword.control.end.arc" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        {
+          "match": "^\\s*([a-zA-Z_][a-zA-Z0-9_]*)\\s*(:)\\s*([a-zA-Z]+)\\s*(=)\\s*(.+)$",
+          "captures": {
+            "1": { "name": "variable.other.grant.arc" },
+            "2": { "name": "punctuation.separator.key-value.arc" },
+            "3": { "name": "storage.type.arc" },
+            "4": { "name": "keyword.operator.assignment.arc" },
+            "5": { "name": "string.unquoted.grant.value.arc" }
+          }
+        }
+      ]
+    },
+    "display-block": {
+      "name": "meta.block.display.arc",
+      "begin": "^(\\s*)(~display)\\s*$",
+      "end": "^(\\s*)(~end)\\s*$",
+      "beginCaptures": {
+        "2": { "name": "keyword.control.display.arc" }
+      },
+      "endCaptures": {
+        "2": { "name": "keyword.control.end.arc" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#entity-field-name" },
+        { "include": "#entity-field-value" }
+      ]
+    },
+    "sparkle-block": {
+      "name": "meta.block.sparkle.arc",
+      "begin": "^(\\s*)(~sparkle)\\s*$",
+      "end": "^(\\s*)(~end)\\s*$",
+      "beginCaptures": {
+        "2": { "name": "keyword.control.sparkle.arc" }
+      },
+      "endCaptures": {
+        "2": { "name": "keyword.control.end.arc" }
+      },
+      "patterns": [
+        { "include": "#comments" },
+        { "include": "#entity-field-name" },
+        { "include": "#entity-field-value" }
+      ]
+    },
+    "minigame-directive-block": {
+      "name": "meta.block.minigame.directive.arc",
+      "begin": "^(\\s*)(~minigame)\\s+([a-zA-Z_][a-zA-Z0-9_-]*)(.*)$",
+      "end": "^(\\s*)(~end)\\s*$",
+      "beginCaptures": {
+        "2": { "name": "keyword.control.minigame.arc" },
+        "3": { "name": "variable.other.minigame.id.arc" },
+        "4": { "include": "#media-subfields" }
+      },
+      "endCaptures": {
+        "2": { "name": "keyword.control.end.arc" }
+      },
+      "patterns": [
+        { "include": "#comments" }
+      ]
+    },
     "calendar-block": {
       "name": "meta.block.calendar.arc",
       "begin": "^(\\s*)(~calendar)\\s*$",
@@ -345,6 +458,31 @@
           }
         },
         {
+          "name": "meta.directive.pov.arc",
+          "match": "^(\\s*)(~pov)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\s*$",
+          "captures": {
+            "2": { "name": "keyword.control.pov.arc" },
+            "3": { "name": "variable.other.character.id.arc" }
+          }
+        },
+        {
+          "name": "meta.directive.location.arc",
+          "match": "^(\\s*)(~location)\\s+([a-zA-Z_][a-zA-Z0-9_]*)(.*)$",
+          "captures": {
+            "2": { "name": "keyword.control.location.arc" },
+            "3": { "name": "variable.other.place.id.arc" },
+            "4": { "name": "constant.numeric.arc" }
+          }
+        },
+        {
+          "name": "meta.directive.sparkle.off.arc",
+          "match": "^(\\s*)(~sparkle)\\s+(off)\\s*$",
+          "captures": {
+            "2": { "name": "keyword.control.sparkle.arc" },
+            "3": { "name": "keyword.operator.sparkle.arc" }
+          }
+        },
+        {
           "name": "meta.directive.log.arc",
           "match": "^(\\s*)(~log)\\s+(\"[^\"]*\")\\s*$",
           "captures": {
@@ -436,6 +574,22 @@
         {
           "name": "meta.tag.audio.arc",
           "match": "^(\\s*)(%audio%)(.*)$",
+          "captures": {
+            "2": { "name": "keyword.control.media.arc" },
+            "3": { "include": "#media-subfields" }
+          }
+        },
+        {
+          "name": "meta.tag.base.arc",
+          "match": "^(\\s*)(%base%)(.*)$",
+          "captures": {
+            "2": { "name": "keyword.control.media.arc" },
+            "3": { "include": "#media-subfields" }
+          }
+        },
+        {
+          "name": "meta.tag.object.arc",
+          "match": "^(\\s*)(%object%)(.*)$",
           "captures": {
             "2": { "name": "keyword.control.media.arc" },
             "3": { "include": "#media-subfields" }
