@@ -6,6 +6,16 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
 
+## [1.0.6] — 2026-09-11
+
+### Added
+
+- The inventory builtins `has_item()` and `add_item()` now highlight as built-in
+  functions. `has_item` had shipped without a grammar entry; `add_item` is new in
+  the compiler.
+
+---
+
 ## [1.0.5] — 2026-09-11
 
 ### Added

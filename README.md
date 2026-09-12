@@ -22,7 +22,7 @@ Full token-level highlighting for every ArcScript construct:
 | **Entities** | `~define char/place/object … ~end`, field names |
 | **Sandbox** | `~triggers … ~end`, `~recipes … ~end`, `~func verb_X … ~end` |
 | **Game time** | `~calendar … ~end`, `~time advance`/`wait_until`, time builtins (`hour()`, `weekday()`, `before()`, `on_or_after()`, …) |
-| **Expressions** | Dot-paths, `any()`/`all()`/`count()`, `visits()`, operators |
+| **Expressions** | Dot-paths, `any()`/`all()`/`count()`, `visits()`, inventory builtins (`has_item()`, `add_item()`), operators |
 | **BBCode** | `[b]`, `[i]`, `[color=…]`, `[shake]`, `[wave]` |
 | **Interpolation** | `{expr}` in text and strings |
 | **Debug** | `~log`, `~assert` |
@@ -211,6 +211,8 @@ any(coll, it.field > 0)
 all(coll, it.sealed == True)
 count(coll, it.health > 0)
 visits(knot_name)
+has_item("object-id")              // T if the player is carrying it
+~set ok = add_item("object-id")    // Put it in the player's inventory (F if it can't be carried)
 
 ~wait 1.5
 ~log "debug: {var}"
